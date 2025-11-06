@@ -20,16 +20,11 @@ public class School {
         return subjects;
     }
 
-    public void createSubject(Subject newSubject) {
+    public void createSubject(Subject newSubject) throws IOException {
         subjects.add(newSubject);
         File newFile = new File("src/main/resources/com/uece/projects/leitor_de_gabaritos/school_files/"
                 + newSubject.getName() + ".txt");
-        try {
             newFile.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
+            subjectHashMap.put(newSubject, newFile);
         }
-        subjectHashMap.put(newSubject, newFile);
     }
-}

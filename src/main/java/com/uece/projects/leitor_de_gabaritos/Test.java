@@ -1,5 +1,7 @@
 package com.uece.projects.leitor_de_gabaritos;
 
+import java.io.IOException;
+
 import com.uece.projects.leitor_de_gabaritos.classes.School;
 import com.uece.projects.leitor_de_gabaritos.classes.Subject;
 
@@ -10,6 +12,10 @@ public class Test {
         char[] pooCorrectAnswers = {'V', 'F', 'V', 'F', 'V', 'F', 'V', 'F', 'V', 'F'};
         Subject poo = new Subject("poo", pooCorrectAnswers);
         
-        school.createSubject(poo);
+        try {
+            school.createSubject(poo);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
