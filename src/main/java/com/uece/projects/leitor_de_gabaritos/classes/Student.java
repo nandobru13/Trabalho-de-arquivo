@@ -49,4 +49,8 @@ public class Student {
     public boolean isAllSameAnswer() {
         return allSameAnswer;
     }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
 }
