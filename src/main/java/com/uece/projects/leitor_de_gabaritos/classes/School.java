@@ -4,17 +4,22 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import com.uece.projects.leitor_de_gabaritos.classes.exceptions.FileAlreadyCreatedException;
+
 public class School {
 
     private final List<Subject> subjects;
+    private final List<File> subjectFiles;
     private final HashMap<Subject, File> subjectHashMap;
 
     public School() {
         this.subjects = new CopyOnWriteArrayList<>();
+        this.subjectFiles = new CopyOnWriteArrayList<>();
         this.subjectHashMap = new HashMap<>();
     }
 
@@ -22,73 +27,71 @@ public class School {
         return subjects;
     }
 
-    public void createSubject(Subject newSubject) throws IOException {
+    public void createSubject(Subject newSubject) throws IOException, FileAlreadyCreatedException {
+        findSubjectFiles();
+
+        for (File subjectFile : subjectFiles) {
+            if (subjectFile.getName().equals(newSubject.getName() + ".txt")) {
+                throw new FileAlreadyCreatedException(newSubject.getName());
+            }
+        }
+
         subjects.add(newSubject);
         File newFile = new File("src/main/resources/com/uece/projects/leitor_de_gabaritos/school_files/"
                 + newSubject.getName() + ".txt");
 
         if (!newFile.exists()) {
             newFile.createNewFile();
+
+            try (FileWriter writer = new FileWriter(newFile, false)) {
+                StringBuilder sb = new StringBuilder();
+                for (boolean answer : newSubject.getCorrectAnswers()) {
+                    sb.append(answer ? 'V' : 'F');
+                }
+                sb.append(",GABARITO").append(System.lineSeparator());
+                writer.write(sb.toString());
+            }
         }
 
         subjectHashMap.put(newSubject, newFile);
-
-        
-        try (FileWriter writer = new FileWriter(newFile, false)) {
-            StringBuilder sb = new StringBuilder();
-            for (boolean answer : newSubject.getCorrectAnswers()) {
-                sb.append(answer ? 'V' : 'F');
-            }
-            sb.append("\tGABARITO").append(System.lineSeparator());
-            writer.write(sb.toString());
+        for (Subject subject : subjects) {
+            System.out.println(subject.getName());
         }
     }
 
-
-    public List<File> findSubjectFiles(String folderPath) {
-        File folder = new File(folderPath);
-        List<File> subjectFiles = new CopyOnWriteArrayList<>();
+    private void findSubjectFiles() throws IOException {
+        File folder = new File("src/main/resources/com/uece/projects/leitor_de_gabaritos/school_files/");
 
         if (folder.exists() && folder.isDirectory()) {
+            subjectFiles.clear();
             File[] files = folder.listFiles((dir, name) -> name.endsWith(".txt"));
             if (files != null) {
-                for (File file : files) {
-                    subjectFiles.add(file);
-                }
+                subjectFiles.addAll(Arrays.asList(files));
             }
         }
-        return subjectFiles;
+
+        loadSubjectsFromFiles();
     }
 
-    public void loadSubjectsFromFiles(String folderPath) throws IOException {
-        File folder = new File(folderPath);
+    private void loadSubjectsFromFiles() throws IOException {
 
-        if (!folder.exists() || !folder.isDirectory()) {
-            System.out.println("A pasta " + folderPath + " não existe ou não é uma pasta válida.");
-            return;
-        }
-
-        File[] files = folder.listFiles((dir, name) -> name.endsWith(".txt"));
-        if (files == null) {
-            System.out.println("Nenhum arquivo encontrado em " + folderPath);
-            return;
-        }
-
-        for (File file : files) {
+        for (File file : subjectFiles) {
             String subjectName = file.getName().replace(".txt", "");
             List<String> lines = Files.readAllLines(file.toPath());
-            if (lines.isEmpty()) continue;
+            if (lines.isEmpty()) {
+                continue;
+            }
 
-        
-            String[] firstLine = lines.get(0).split("\t");
+            String[] firstLine = lines.get(0).split(",");
             char[] correctAnswers = firstLine[0].toCharArray();
 
             Subject subject = new Subject(subjectName, correctAnswers);
 
-       
             for (int i = 1; i < lines.size(); i++) {
-                String[] parts = lines.get(i).split("\t");
-                if (parts.length < 2) continue;
+                String[] parts = lines.get(i).split(",");
+                if (parts.length < 2) {
+                    continue;
+                }
 
                 char[] studentAnswers = parts[0].toCharArray();
                 String studentName = parts[1];
@@ -105,8 +108,22 @@ public class School {
         System.out.println("Matérias carregadas: " + subjects.size());
     }
 
+    public void showAllAnswers() {
+        for (Subject subject : subjects) {
+            subject.updateScores();
+            System.out.println("---- " + subject.getName() + " ------");
+            System.out.print("GABARITO: ");
+            for (Boolean answer : subject.getCorrectAnswers()) {
+                System.out.print(answer ? 'V' : 'F');
+            }
+            System.out.println("");
+            for (Student student : subject.getStudents()) {
+                System.out.println("Resposta: " + student.getAnswers() + ", " + student.getScore());
+            }
+        }
+    }
 
-    public void addStudentAnswer(Subject subject, String studentName, char[] answers) throws IOException {
+    private void addStudentAnswer(Subject subject, String studentName, char[] answers) throws IOException {
         if (!subjectHashMap.containsKey(subject)) {
             System.out.println("Matéria não encontrada nos arquivos.");
             return;
@@ -120,7 +137,6 @@ public class School {
 
         subject.updateScores();
 
-     
         try (FileWriter writer = new FileWriter(subjectFile, true)) {
             StringBuilder sb = new StringBuilder();
             for (char c : answers) {

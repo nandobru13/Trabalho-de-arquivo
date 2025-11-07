@@ -7,16 +7,16 @@ public class Subject {
 
     private final String name;
     private final List<Student> students;
-    private final boolean[] correctAnswers;
+    private final List<Boolean> correctAnswers;
 
     // tratar erro caso correctAnswers.length > 10
     public Subject(String name, char[] correctAnswers) {
         this.name = name;
         this.students = new CopyOnWriteArrayList<>();
-        this.correctAnswers = new boolean[10];
-
-        for (int i = 0; i < this.correctAnswers.length; i++) {
-            this.correctAnswers[i] = correctAnswers[i] == 'V';
+        this.correctAnswers = new CopyOnWriteArrayList<>();
+        
+        for (int i = 0; i < correctAnswers.length; i++) {
+            this.correctAnswers.add(correctAnswers[i] == 'V');
         }
     }
 
@@ -28,22 +28,17 @@ public class Subject {
         return students;
     }
 
-    public boolean[] getCorrectAnswers() {
+    public List<Boolean> getCorrectAnswers() {
         return correctAnswers;
     }
 
     public void updateScores() {
         for (Student student : students) {
-            if (student.isAllSameAnswer()) {
-                student.setScore(0);
-                continue;
-            }
-            for (boolean answer : student.getAnswers()) {
-                if (answer == correctAnswers[student.getAnswers().indexOf(answer)]) {
-                    student.setScore(student.getScore() + 1);
-                } else {
-                    if (student.getScore() > 0) {
-                        student.setScore(student.getScore() - 1);
+            student.setScore(0);
+            if (!student.isAllSameAnswer()) {
+                for (int i = 0; i < correctAnswers.size(); i++) {
+                    if (student.getAnswers().get(i).equals(correctAnswers.get(i))) {
+                        student.setScore(student.getScore() + 1);
                     }
                 }
             }
