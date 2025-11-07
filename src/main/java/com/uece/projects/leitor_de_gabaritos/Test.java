@@ -11,11 +11,11 @@ public class Test {
 
     public static void main(String[] args) {
         School school = new School();
-        char[] pooCorrectAnswers = {'V', 'F', 'V', 'F', 'V', 'F', 'V', 'F', 'V', 'F'};
-        Subject poo = new Subject("poo", pooCorrectAnswers);
+        char[] calculoCorrectAnswers = {'V', 'F', 'V', 'F', 'V', 'F', 'V', 'F', 'V', 'F'};
+        Subject calculo = new Subject("calculo", calculoCorrectAnswers);
 
         try {
-            school.createSubject(poo);
+            school.createSubject(calculo);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (FileAlreadyCreatedException ex) {
@@ -25,7 +25,7 @@ public class Test {
         
         char[] raimundoAnswers = {'V', 'F', 'V', 'F', 'V', 'F', 'V', 'F', 'V', 'F'};
         try {
-            school.addStudentAnswer("logica_de_programacao", "Raimundo", raimundoAnswers);
+            school.addStudentAnswer("calculo", "Raimundo", raimundoAnswers);
         } catch (IOException e) {
             e.printStackTrace();
         }

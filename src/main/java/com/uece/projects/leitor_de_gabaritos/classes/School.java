@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -38,13 +39,15 @@ public class School {
         }
 
         subjects.add(newSubject);
+        File templateFile = new File("src/main/resources/com/uece/projects/leitor_de_gabaritos/school_files/templates/"
+                + newSubject.getName() + "_template.txt");
         File newFile = new File("src/main/resources/com/uece/projects/leitor_de_gabaritos/school_files/"
                 + newSubject.getName() + ".txt");
 
-        if (!newFile.exists()) {
-            newFile.createNewFile();
+        if (!templateFile.exists()) {
+            templateFile.createNewFile();
 
-            try (FileWriter writer = new FileWriter(newFile, false)) {
+            try (FileWriter writer = new FileWriter(templateFile, false)) {
                 StringBuilder sb = new StringBuilder();
                 for (boolean answer : newSubject.getCorrectAnswers()) {
                     sb.append(answer ? 'V' : 'F');
@@ -54,10 +57,11 @@ public class School {
             }
         }
 
-        subjectHashMap.put(newSubject, newFile);
-        for (Subject subject : subjects) {
-            System.out.println(subject.getName());
+        if (!newFile.exists()) {
+            newFile.createNewFile();
         }
+
+        subjectHashMap.put(newSubject, templateFile);
     }
 
     private void findSubjectFiles() throws IOException {
@@ -79,34 +83,32 @@ public class School {
         for (File file : subjectFiles) {
             String subjectName = file.getName().replace(".txt", "");
             List<String> lines = Files.readAllLines(file.toPath());
-            if (lines.isEmpty()) {
-                continue;
-            }
+            List<String> template = Files.readAllLines(Path.of(file.toPath().getParent().toString() + "/templates/" + subjectName + "_template.txt"));
 
-            String[] firstLine = lines.get(0).split(",");
+            String[] firstLine = template.get(0).split(",");
             char[] correctAnswers = firstLine[0].toCharArray();
 
             Subject subject = new Subject(subjectName, correctAnswers);
 
-            for (int i = 1; i < lines.size(); i++) {
-                String[] parts = lines.get(i).split(",");
-                if (parts.length < 2) {
-                    continue;
+            if (!lines.isEmpty()) {
+                for (int i = 0; i < lines.size(); i++) {
+                    String[] parts = lines.get(i).split(",");
+                    if (parts.length < 2) {
+                        continue;
+                    }
+
+                    char[] studentAnswers = parts[0].toCharArray();
+                    String studentName = parts[1];
+
+                    Student student = new Student(i, studentName, studentAnswers);
+                    subject.getStudents().add(student);
                 }
-
-                char[] studentAnswers = parts[0].toCharArray();
-                String studentName = parts[1];
-
-                Student student = new Student(i, studentName, studentAnswers);
-                subject.getStudents().add(student);
             }
 
             subject.updateScores();
             subjects.add(subject);
             subjectHashMap.put(subject, file);
         }
-
-        System.out.println("Matérias carregadas: " + subjects.size());
     }
 
     public void showAllAnswers() {
