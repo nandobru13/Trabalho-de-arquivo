@@ -54,14 +54,15 @@ public class School {
                 }
                 sb.append(",GABARITO").append(System.lineSeparator());
                 writer.write(sb.toString());
+                writer.close();
             }
-        }
 
+        }
         if (!newFile.exists()) {
             newFile.createNewFile();
         }
 
-        subjectHashMap.put(newSubject, templateFile);
+        subjectHashMap.put(newSubject, newFile);
     }
 
     private void findSubjectFiles() throws IOException {
@@ -85,8 +86,8 @@ public class School {
             List<String> lines = Files.readAllLines(file.toPath());
             List<String> template = Files.readAllLines(Path.of(file.toPath().getParent().toString() + "/templates/" + subjectName + "_template.txt"));
 
-            String[] firstLine = template.get(0).split(",");
-            char[] correctAnswers = firstLine[0].toCharArray();
+            String[] templateLine = template.get(0).split(",");
+            char[] correctAnswers = templateLine[0].toCharArray();
 
             Subject subject = new Subject(subjectName, correctAnswers);
 
@@ -108,6 +109,7 @@ public class School {
             subject.updateScores();
             subjects.add(subject);
             subjectHashMap.put(subject, file);
+            System.out.println(file.getPath());
         }
     }
 
@@ -143,13 +145,14 @@ public class School {
     private void addStudentToFile(Subject subject, String studentName, char[] answers) throws IOException {
         File subjectFile = subjectHashMap.get(subject);
 
-        try (FileWriter writer = new FileWriter(subjectFile, true)) {
+        try (FileWriter fw = new FileWriter(subjectFile, true)) {
             StringBuilder sb = new StringBuilder();
             for (char c : answers) {
                 sb.append(c);
             }
             sb.append(",").append(studentName).append(System.lineSeparator());
-            writer.write(sb.toString());
+            fw.write(sb.toString());
+            fw.close();
         }
     }
 

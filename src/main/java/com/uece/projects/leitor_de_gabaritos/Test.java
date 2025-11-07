@@ -12,7 +12,7 @@ public class Test {
     public static void main(String[] args) {
         School school = new School();
         char[] calculoCorrectAnswers = {'V', 'F', 'V', 'F', 'V', 'F', 'V', 'F', 'V', 'F'};
-        Subject calculo = new Subject("calculo", calculoCorrectAnswers);
+        Subject calculo = new Subject("algebra_linear", calculoCorrectAnswers);
 
         try {
             school.createSubject(calculo);
@@ -21,13 +21,13 @@ public class Test {
         } catch (FileAlreadyCreatedException ex) {
             ex.toString();
         }
-        school.showAllAnswers();
         
         char[] raimundoAnswers = {'V', 'F', 'V', 'F', 'V', 'F', 'V', 'F', 'V', 'F'};
         try {
-            school.addStudentAnswer("calculo", "Raimundo", raimundoAnswers);
+            school.addStudentAnswer("algebra_linear", "Raimundo", raimundoAnswers);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        school.showAllAnswers();
     }
 }
