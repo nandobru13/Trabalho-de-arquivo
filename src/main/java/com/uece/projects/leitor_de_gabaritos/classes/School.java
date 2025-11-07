@@ -1,6 +1,7 @@
 package com.uece.projects.leitor_de_gabaritos.classes;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -123,29 +124,39 @@ public class School {
         }
     }
 
-    private void addStudentAnswer(Subject subject, String studentName, char[] answers) throws IOException {
-        if (!subjectHashMap.containsKey(subject)) {
-            System.out.println("Matéria não encontrada nos arquivos.");
-            return;
+    public void addStudentAnswer(String subjectName, String studentName, char[] answers) throws IOException, FileNotFoundException {
+
+        if (!subjectHashMap.containsKey(searchSubject(subjectName))) {
+            throw new FileNotFoundException();
         }
 
-        File subjectFile = subjectHashMap.get(subject);
-        int newId = subject.getStudents().size() + 1;
-
+        int newId = searchSubject(subjectName).getStudents().size() + 1;
         Student newStudent = new Student(newId, studentName, answers);
-        subject.getStudents().add(newStudent);
+        searchSubject(subjectName).getStudents().add(newStudent);
+        searchSubject(subjectName).updateScores();
 
-        subject.updateScores();
+        addStudentToFile(searchSubject(subjectName), studentName, answers);
+    }
+
+    private void addStudentToFile(Subject subject, String studentName, char[] answers) throws IOException {
+        File subjectFile = subjectHashMap.get(subject);
 
         try (FileWriter writer = new FileWriter(subjectFile, true)) {
             StringBuilder sb = new StringBuilder();
             for (char c : answers) {
                 sb.append(c);
             }
-            sb.append("\t").append(studentName).append(System.lineSeparator());
+            sb.append(",").append(studentName).append(System.lineSeparator());
             writer.write(sb.toString());
         }
+    }
 
-        System.out.println("Aluno \"" + studentName + "\" adicionado à matéria \"" + subject.getName() + "\".");
+    private Subject searchSubject(String subjectName) {
+        for (Subject subject : subjects) {
+            if (subjectName.equals(subject.getName())) {
+                return subject;
+            }
+        }
+        return null;
     }
 }

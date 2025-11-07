@@ -22,5 +22,12 @@ public class Test {
             ex.toString();
         }
         school.showAllAnswers();
+        
+        char[] raimundoAnswers = {'V', 'F', 'V', 'F', 'V', 'F', 'V', 'F', 'V', 'F'};
+        try {
+            school.addStudentAnswer("logica_de_programacao", "Raimundo", raimundoAnswers);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
