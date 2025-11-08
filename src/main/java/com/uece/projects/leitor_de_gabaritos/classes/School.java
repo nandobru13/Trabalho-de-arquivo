@@ -65,11 +65,17 @@ public class School {
         subjectHashMap.put(newSubject, newFile);
     }
 
-    private void createSubjectResultsFile(Subject subject) throws IOException {
+    private void createSubjectResultsFiles(Subject subject) throws IOException {
+        File resultFolder = new File("src/main/resources/com/uece/projects/leitor_de_gabaritos/school_files/results/"
+        + subject.getName() + "/");
         File resultFile = new File("src/main/resources/com/uece/projects/leitor_de_gabaritos/school_files/results/"
-                + subject.getName() + ".txt");
+                + subject.getName() + "/"+ subject.getName() + "_results.txt");
 
-        if (!resultFile.exists()) {
+        if (!resultFolder.exists()) {
+            resultFolder.mkdir();
+        }
+        
+        if (!resultFile.exists()){
             resultFile.createNewFile();
         }
 
@@ -137,7 +143,7 @@ public class School {
     public void showAllAnswers() throws IOException {
         for (Subject subject : subjects) {
             subject.updateScores();
-            createSubjectResultsFile(subject);
+            createSubjectResultsFiles(subject);
         }
     }
 
