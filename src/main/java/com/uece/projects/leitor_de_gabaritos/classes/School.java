@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -67,29 +69,50 @@ public class School {
 
     private void createSubjectResultsFiles(Subject subject) throws IOException {
         File resultFolder = new File("src/main/resources/com/uece/projects/leitor_de_gabaritos/school_files/results/"
-        + subject.getName() + "/");
+                + subject.getName() + "/");
         File resultFile = new File("src/main/resources/com/uece/projects/leitor_de_gabaritos/school_files/results/"
-                + subject.getName() + "/"+ subject.getName() + "_results.txt");
+                + subject.getName() + "/" + subject.getName() + "_results.txt");
 
         if (!resultFolder.exists()) {
             resultFolder.mkdir();
         }
-        
-        if (!resultFile.exists()){
+
+        if (!resultFile.exists()) {
             resultFile.createNewFile();
         }
 
-        try {
-            FileWriter fw = new FileWriter(resultFile, false);
-            BufferedWriter bw = new BufferedWriter(fw);
+        try (FileWriter fw = new FileWriter(resultFile, false); BufferedWriter bw = new BufferedWriter(fw)) {
             for (Student student : subject.getStudents()) {
                 bw.write(student.getName() + "," + student.getScore());
                 bw.newLine();
             }
-            bw.close();
-            fw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        }
+        
+        sortSubjectResults(subject, "score");
+        sortSubjectResults(subject, "name");
+    }
+
+    private void sortSubjectResults(Subject subject, String chooseMode) throws IOException {
+        File resultFile = new File("src/main/resources/com/uece/projects/leitor_de_gabaritos/school_files/results/"
+                + subject.getName() + "/" + subject.getName() + "_results_by_" + chooseMode +".txt");
+
+        if (!resultFile.exists()) {
+            resultFile.createNewFile();
+        }
+        
+        List<Student> sortedList = new CopyOnWriteArrayList<>(subject.getStudents());
+        
+        if(chooseMode.equals("name")) {
+            sortedList.sort((p1, p2) -> p1.getName().compareTo(p2.getName()));
+        } else if (chooseMode.equals("score")) {
+            Collections.sort(sortedList, Comparator.comparing(Student::getName).reversed());
+        }
+
+        try (FileWriter fw = new FileWriter(resultFile, false); BufferedWriter bw = new BufferedWriter(fw)) {
+            for (Student student : sortedList) {
+                bw.write(student.getName() + "," + student.getScore());
+                bw.newLine();
+            }
         }
     }
 
@@ -139,7 +162,7 @@ public class School {
             subjectHashMap.put(subject, file);
         }
     }
-    
+
     public void showAllAnswers() throws IOException {
         for (Subject subject : subjects) {
             subject.updateScores();
