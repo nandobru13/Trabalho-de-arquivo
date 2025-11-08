@@ -1,5 +1,6 @@
 package com.uece.projects.leitor_de_gabaritos.classes;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -61,8 +62,29 @@ public class School {
         if (!newFile.exists()) {
             newFile.createNewFile();
         }
-
         subjectHashMap.put(newSubject, newFile);
+    }
+
+    private void createSubjectResultsFile(Subject subject) throws IOException {
+        File resultFile = new File("src/main/resources/com/uece/projects/leitor_de_gabaritos/school_files/results/"
+                + subject.getName() + ".txt");
+
+        if (!resultFile.exists()) {
+            resultFile.createNewFile();
+        }
+
+        try {
+            FileWriter fw = new FileWriter(resultFile, false);
+            BufferedWriter bw = new BufferedWriter(fw);
+            for (Student student : subject.getStudents()) {
+                bw.write(student.getName() + "," + student.getScore());
+                bw.newLine();
+            }
+            bw.close();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void findSubjectFiles() throws IOException {
@@ -80,7 +102,7 @@ public class School {
     }
 
     private void loadSubjectsFromFiles() throws IOException {
-
+        subjects.clear();
         for (File file : subjectFiles) {
             String subjectName = file.getName().replace(".txt", "");
             List<String> lines = Files.readAllLines(file.toPath());
@@ -109,22 +131,13 @@ public class School {
             subject.updateScores();
             subjects.add(subject);
             subjectHashMap.put(subject, file);
-            System.out.println(file.getPath());
         }
     }
-
-    public void showAllAnswers() {
+    
+    public void showAllAnswers() throws IOException {
         for (Subject subject : subjects) {
             subject.updateScores();
-            System.out.println("---- " + subject.getName() + " ------");
-            System.out.print("GABARITO: ");
-            for (Boolean answer : subject.getCorrectAnswers()) {
-                System.out.print(answer ? 'V' : 'F');
-            }
-            System.out.println("");
-            for (Student student : subject.getStudents()) {
-                System.out.println("Resposta: " + student.getAnswers() + ", " + student.getScore());
-            }
+            createSubjectResultsFile(subject);
         }
     }
 

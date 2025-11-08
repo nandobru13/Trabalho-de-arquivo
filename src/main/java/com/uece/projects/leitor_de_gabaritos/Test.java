@@ -12,7 +12,7 @@ public class Test {
     public static void main(String[] args) {
         School school = new School();
         char[] calculoCorrectAnswers = {'V', 'F', 'V', 'F', 'V', 'F', 'V', 'F', 'V', 'F'};
-        Subject calculo = new Subject("algebra_linear", calculoCorrectAnswers);
+        Subject calculo = new Subject("arquitetura_de_computadores", calculoCorrectAnswers);
 
         try {
             school.createSubject(calculo);
@@ -22,12 +22,16 @@ public class Test {
             ex.toString();
         }
         
-        char[] raimundoAnswers = {'V', 'F', 'V', 'F', 'V', 'F', 'V', 'F', 'V', 'F'};
+        char[] raimundoAnswers = {'V', 'F', 'V', 'F', 'V', 'F', 'V', 'F', 'F', 'F'};
         try {
-            school.addStudentAnswer("algebra_linear", "Raimundo", raimundoAnswers);
+            school.addStudentAnswer("arquitetura_de_computadores", "Maria", raimundoAnswers);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        school.showAllAnswers();
+        try {
+            school.showAllAnswers();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
