@@ -8,12 +8,17 @@ import com.uece.projects.leitor_de_gabaritos.classes.exceptions.FileAlreadyCreat
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class MainScreenController {
 
@@ -48,11 +53,28 @@ public class MainScreenController {
 
     public void showSubjectsList() {
         // Button view, Button delete
+        subjectsListVBox.getChildren().clear();
         for (Subject subject : school.getSubjects()) {
             HBox container = new HBox(10);
             Label subjectName = new Label(subject.getName());
             Button view = new Button("Visualizar");
             Button deleteSubject = new Button("Excluir");
+
+            view.setOnAction(eh -> {
+                try {
+                    FXMLLoader loader = new FXMLLoader(App.class.getResource("student_list_screen.fxml"));
+                    Parent root = loader.load();
+                    SubjectStudentsListController controller = loader.getController();
+                    Stage stage = new Stage();
+                    Scene scene = new Scene(root);
+                    controller.build(subject);
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.setScene(scene);
+                    stage.show();
+                } catch (IOException e) {
+                    System.out.println(e);
+                }
+            });
 
             container.getChildren().add(view);
             container.getChildren().add(subjectName);
@@ -63,6 +85,7 @@ public class MainScreenController {
     }
 
     public void showAverageList() {
+        averageListVBox.getChildren().clear();
         for (Subject subject : school.getSubjects()) {
             HBox container = new HBox(10);
             Label subjectName = new Label(subject.getName());
