@@ -26,6 +26,12 @@ public class School {
         this.subjects = new CopyOnWriteArrayList<>();
         this.subjectFiles = new CopyOnWriteArrayList<>();
         this.subjectHashMap = new HashMap<>();
+        
+        try {
+            findSubjectFiles();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
     }
 
     public List<Subject> getSubjects() {

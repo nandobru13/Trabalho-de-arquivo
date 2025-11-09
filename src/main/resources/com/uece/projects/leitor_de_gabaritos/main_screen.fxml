@@ -71,7 +71,7 @@
                </children></AnchorPane>
       </content>
     </Tab>
-      <Tab text="Exibir Respostas">
+      <Tab onSelectionChanged="#showSubjectsList" text="Exibir Respostas">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
@@ -87,7 +87,17 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <ScrollPane fx:id="subjectsListScrollPane" prefHeight="596.0" prefWidth="914.0" style="-fx-border-width: 0px;" />
+                        <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="577.0" prefWidth="853.0" style="-fx-border-width: 0px;">
+                           <content>
+                              <VBox fx:id="subjectsListVBox" prefHeight="548.0" prefWidth="914.0" spacing="10.0">
+                                 <padding>
+                                    <Insets bottom="30.0" />
+                                 </padding>
+                              </VBox>
+                           </content>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+                           </padding></ScrollPane>
                      </children></VBox>
                </children>
             </AnchorPane>
