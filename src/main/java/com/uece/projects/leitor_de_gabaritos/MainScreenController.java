@@ -24,7 +24,7 @@ public class MainScreenController {
     @FXML
     TextField subjectNameTextField;
     @FXML
-    ScrollPane averageListScrollPane;
+    VBox averageListVBox;
     @FXML
     VBox subjectsListVBox;
     @FXML
@@ -47,6 +47,7 @@ public class MainScreenController {
     }
 
     public void showSubjectsList() {
+        // Button view, Button delete
         for (Subject subject : school.getSubjects()) {
             HBox container = new HBox(10);
             Label subjectName = new Label(subject.getName());
@@ -58,6 +59,24 @@ public class MainScreenController {
             container.getChildren().add(deleteSubject);
 
             subjectsListVBox.getChildren().add(container);
+        }
+    }
+
+    public void showAverageList() {
+        for (Subject subject : school.getSubjects()) {
+            HBox container = new HBox(10);
+            Label subjectName = new Label(subject.getName());
+            Label subjectAverage;
+            if (school.getSujectsAverages().get(subject) != -1) {
+                subjectAverage = new Label(String.valueOf(school.getSujectsAverages().get(subject)));
+            } else {
+                subjectAverage = new Label("Sem respostas.");
+            }
+
+            container.getChildren().add(subjectName);
+            container.getChildren().add(subjectAverage);
+
+            averageListVBox.getChildren().add(container);
         }
     }
 

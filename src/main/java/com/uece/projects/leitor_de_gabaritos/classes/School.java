@@ -21,12 +21,14 @@ public class School {
     private final List<Subject> subjects;
     private final List<File> subjectFiles;
     private final HashMap<Subject, File> subjectHashMap;
+    private final HashMap<Subject, Double> subjectsAverage;
 
     public School() {
         this.subjects = new CopyOnWriteArrayList<>();
         this.subjectFiles = new CopyOnWriteArrayList<>();
         this.subjectHashMap = new HashMap<>();
-        
+        this.subjectsAverage = new HashMap<>();
+
         try {
             findSubjectFiles();
         } catch (IOException e) {
@@ -93,22 +95,22 @@ public class School {
                 bw.newLine();
             }
         }
-        
+
         sortSubjectResults(subject, "score");
         sortSubjectResults(subject, "name");
     }
 
     private void sortSubjectResults(Subject subject, String chooseMode) throws IOException {
         File resultFile = new File("src/main/resources/com/uece/projects/leitor_de_gabaritos/school_files/results/"
-                + subject.getName() + "/" + subject.getName() + "_results_by_" + chooseMode +".txt");
+                + subject.getName() + "/" + subject.getName() + "_results_by_" + chooseMode + ".txt");
 
         if (!resultFile.exists()) {
             resultFile.createNewFile();
         }
-        
+
         List<Student> sortedList = new CopyOnWriteArrayList<>(subject.getStudents());
-        
-        if(chooseMode.equals("name")) {
+
+        if (chooseMode.equals("name")) {
             sortedList.sort((p1, p2) -> p1.getName().compareTo(p2.getName()));
         } else if (chooseMode.equals("score")) {
             Collections.sort(sortedList, Comparator.comparing(Student::getName).reversed());
@@ -174,6 +176,27 @@ public class School {
             subject.updateScores();
             createSubjectResultsFiles(subject);
         }
+    }
+
+    public HashMap<Subject, Double> getSujectsAverages() {
+        for (Subject subject : subjects) {
+            double averageScore = 0;
+            int totalScore = 0;
+            int totalAnswers = 0;
+            for (Student student : subject.getStudents()) {
+                totalAnswers++;
+                totalScore += student.getScore();
+            }
+            if(totalAnswers == 0) {
+                totalAnswers = -1;
+                subjectsAverage.put(subject, Double.valueOf(totalAnswers));
+            } else {
+                averageScore = totalScore / totalAnswers;
+                subjectsAverage.put(subject, averageScore);
+            }
+        }
+
+        return subjectsAverage;
     }
 
     public void addStudentAnswer(String subjectName, String studentName, char[] answers) throws IOException, FileNotFoundException {
