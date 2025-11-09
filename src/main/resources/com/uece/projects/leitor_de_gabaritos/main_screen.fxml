@@ -82,7 +82,7 @@
                   </Label>
                   <VBox layoutX="50.0" layoutY="65.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="65.0">
                      <children>
-                        <Label alignment="CENTER" prefHeight="27.0" prefWidth="928.0" text="Escolha uma disciplina para exibir as informações" textFill="#d6dd00">
+                        <Label alignment="CENTER" prefHeight="27.0" prefWidth="928.0" text="Escolha uma disciplina para exibir as informações" textFill="#1457ff">
                            <font>
                               <Font size="18.0" />
                            </font>
