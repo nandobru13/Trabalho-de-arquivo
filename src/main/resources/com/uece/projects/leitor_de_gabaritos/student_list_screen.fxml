@@ -8,14 +8,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uece.projects.leitor_de_gabaritos.SubjectStudentsListController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="674.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uece.projects.leitor_de_gabaritos.SubjectStudentsListController">
    <children>
-      <Label layoutX="14.0" layoutY="14.0" text="Lista de alunos:" textFill="#0f4bcd">
+      <Label layoutX="14.0" layoutY="92.0" text="Lista de alunos:" textFill="#0f4bcd">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="15.0" layoutY="60.0" prefHeight="480.0" prefWidth="570.0">
+      <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="15.0" layoutY="136.0" prefHeight="480.0" prefWidth="570.0">
          <content>
             <VBox fx:id="studentsListVBox" prefHeight="200.0" prefWidth="100.0" />
          </content>
@@ -23,10 +23,20 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </ScrollPane>
-      <Button layoutX="513.0" layoutY="551.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="71.0" text="FECHAR" textFill="#c60d0d">
+      <Button layoutX="515.0" layoutY="625.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="71.0" text="FECHAR" textFill="#c60d0d">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
+      <Label fx:id="subjectNameLabel" layoutX="15.0" layoutY="23.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="templateLabel" layoutX="14.0" layoutY="63.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

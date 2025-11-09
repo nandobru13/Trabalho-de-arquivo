@@ -38,8 +38,8 @@ public class MainScreenController {
     Button addSubjectButton;
 
     public void addSubject() {
-        // Tratar erros de input
-        // Adicionar escolha de arquivo
+        // Input Errors
+        // Choose file option
         String subjectName = subjectNameTextField.getText();
         char[] subjectTemplate = subjectTemplateTextField.getText().toCharArray();
         Subject newSubject = new Subject(subjectName, subjectTemplate);
@@ -52,7 +52,7 @@ public class MainScreenController {
     }
 
     public void showSubjectsList() {
-        // Button view, Button delete
+        // Button delete
         subjectsListVBox.getChildren().clear();
         for (Subject subject : school.getSubjects()) {
             HBox container = new HBox(10);
@@ -85,6 +85,7 @@ public class MainScreenController {
     }
 
     public void showAverageList() {
+        // Show in score order
         averageListVBox.getChildren().clear();
         for (Subject subject : school.getSubjects()) {
             HBox container = new HBox(10);

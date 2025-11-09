@@ -13,9 +13,28 @@ public class SubjectStudentsListController {
 
     @FXML
     VBox studentsListVBox;
+    @FXML
+    Label subjectNameLabel;
+    @FXML
+    Label templateLabel;
 
     public void build(Subject subject) {
         // Delete student
+        // Show answers by score
+        // Show answers by name
+        // Add new Student
+        // Close window
+        subjectNameLabel.setText(subject.getName());
+        String template = "Gabarito: ";
+        for (Boolean answer : subject.getCorrectAnswers()) {
+            if (answer) {
+                template = template.concat("V");
+            } else {
+                template = template.concat("F");
+            }
+        }
+        templateLabel.setText(template);
+
         studentsListVBox.getChildren().clear();
         for (Student student : subject.getStudents()) {
             HBox container = new HBox(10);
