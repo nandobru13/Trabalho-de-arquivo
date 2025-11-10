@@ -75,6 +75,16 @@ public class MainScreenController {
                     System.out.println(e);
                 }
             });
+            
+            deleteSubject.setOnAction(eh -> {
+            // Add confirmation window
+                try {
+                    school.deleteSubject(subject);
+                    showSubjectsList();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
 
             container.getChildren().add(view);
             container.getChildren().add(subjectName);

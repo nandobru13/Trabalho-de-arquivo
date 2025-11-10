@@ -14,7 +14,7 @@ public class Subject {
         this.name = name;
         this.students = new CopyOnWriteArrayList<>();
         this.correctAnswers = new CopyOnWriteArrayList<>();
-        
+
         for (int i = 0; i < correctAnswers.length; i++) {
             this.correctAnswers.add(correctAnswers[i] == 'V');
         }

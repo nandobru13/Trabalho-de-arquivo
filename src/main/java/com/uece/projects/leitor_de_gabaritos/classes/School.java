@@ -187,7 +187,7 @@ public class School {
                 totalAnswers++;
                 totalScore += student.getScore();
             }
-            if(totalAnswers == 0) {
+            if (totalAnswers == 0) {
                 totalAnswers = -1;
                 subjectsAverage.put(subject, Double.valueOf(totalAnswers));
             } else {
@@ -211,6 +211,31 @@ public class School {
         searchSubject(subjectName).updateScores();
 
         addStudentToFile(searchSubject(subjectName), studentName, answers);
+    }
+
+    public void deleteSubject(Subject subject) throws IOException {
+        File subjectFile = subjectHashMap.get(subject);
+        File templateFile = new File(subjectFile.getParent() + "/templates/" + subject.getName() + "_template.txt");
+        File resultsFolder = new File(subjectFile.getParent() + "/results/" + subject.getName() + "/");
+        if (subjectFile.exists()) {
+            subjectFile.delete();
+        }
+        
+        if(templateFile.exists()){
+            templateFile.delete();
+        }
+        
+        if(resultsFolder.isDirectory() && resultsFolder.exists()) {
+            for (File file : resultsFolder.listFiles()) {
+                file.delete();
+            }
+            resultsFolder.delete();
+        }
+        subjects.remove(subject);
+        subjectFiles.remove(subjectHashMap.get(subject));
+        subjectHashMap.remove(subject);
+        loadSubjectsFromFiles();
+        
     }
 
     private void addStudentToFile(Subject subject, String studentName, char[] answers) throws IOException {
