@@ -67,7 +67,7 @@ public class MainScreenController {
                     SubjectStudentsListController controller = loader.getController();
                     Stage stage = new Stage();
                     Scene scene = new Scene(root);
-                    controller.build(subject);
+                    controller.build(school, subject);
                     stage.initModality(Modality.APPLICATION_MODAL);
                     stage.setScene(scene);
                     stage.show();

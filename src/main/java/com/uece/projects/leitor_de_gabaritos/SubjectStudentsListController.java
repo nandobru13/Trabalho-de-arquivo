@@ -1,5 +1,8 @@
 package com.uece.projects.leitor_de_gabaritos;
 
+import java.io.IOException;
+
+import com.uece.projects.leitor_de_gabaritos.classes.School;
 import com.uece.projects.leitor_de_gabaritos.classes.Student;
 import com.uece.projects.leitor_de_gabaritos.classes.Subject;
 
@@ -18,8 +21,7 @@ public class SubjectStudentsListController {
     @FXML
     Label templateLabel;
 
-    public void build(Subject subject) {
-        // Delete student
+    public void build(School school, Subject subject) {
         // Show answers by score
         // Show answers by name
         // Add new Student
@@ -52,6 +54,14 @@ public class SubjectStudentsListController {
             Label studentScore = new Label("Nota: " + String.valueOf(student.getScore()));
 
             Button deleteSubject = new Button("Excluir");
+            deleteSubject.setOnAction(eh -> {
+                try {
+                    school.deleteAnswer(subject, student);
+                    this.build(school, subject);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
 
             container.getChildren().add(studentName);
             container.getChildren().add(studentAnswers);

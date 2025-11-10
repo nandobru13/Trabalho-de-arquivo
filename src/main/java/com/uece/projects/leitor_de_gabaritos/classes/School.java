@@ -1,12 +1,17 @@
 package com.uece.projects.leitor_de_gabaritos.classes;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -220,12 +225,12 @@ public class School {
         if (subjectFile.exists()) {
             subjectFile.delete();
         }
-        
-        if(templateFile.exists()){
+
+        if (templateFile.exists()) {
             templateFile.delete();
         }
-        
-        if(resultsFolder.isDirectory() && resultsFolder.exists()) {
+
+        if (resultsFolder.isDirectory() && resultsFolder.exists()) {
             for (File file : resultsFolder.listFiles()) {
                 file.delete();
             }
@@ -235,7 +240,36 @@ public class School {
         subjectFiles.remove(subjectHashMap.get(subject));
         subjectHashMap.remove(subject);
         loadSubjectsFromFiles();
+
+    }
+
+    public void deleteAnswer(Subject subject, Student student) throws IOException {
+        File subjectFile = subjectHashMap.get(subject);
         
+        List<String> fileText = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(subjectFile))) {
+            String fileLine;
+            while ((fileLine = br.readLine()) != null) {
+                fileText.add(fileLine);
+            }
+        }
+        
+        String lineToDelete = "";
+        for (Boolean answer : student.getAnswers()) {
+            lineToDelete = lineToDelete.concat(answer ? "V" : "F");
+        }
+        lineToDelete = lineToDelete.concat("," + student.getName());
+        fileText.remove(lineToDelete);
+        
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(subjectFile, false))) {
+            for (String line : fileText) {
+                System.out.println(line);
+                bw.write(line);
+                bw.newLine();
+            }
+        }
+        subject.getStudents().remove(student);
+        createSubjectResultsFiles(subject);
     }
 
     private void addStudentToFile(Subject subject, String studentName, char[] answers) throws IOException {
