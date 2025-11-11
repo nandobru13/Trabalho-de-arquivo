@@ -35,14 +35,9 @@ public class MainScreenController {
     VBox averageListVBox;
     @FXML
     VBox subjectsListVBox;
-    @FXML
-    Button addFileButton;
-    @FXML
-    Button addSubjectButton;
 
     public void addSubject() {
         // Input Errors
-        // Choose file option
         String subjectName = subjectNameTextField.getText();
         char[] subjectTemplate = subjectTemplateTextField.getText().toCharArray();
         Subject newSubject = new Subject(subjectName, subjectTemplate);
@@ -97,7 +92,6 @@ public class MainScreenController {
     }
 
     public void showAverageList() {
-        // Show in score order
         averageListVBox.getChildren().clear();
         if(school.getSujectsAverages().isEmpty()) {
             averageListVBox.getChildren().add(new Label("Não há matérias no momento."));

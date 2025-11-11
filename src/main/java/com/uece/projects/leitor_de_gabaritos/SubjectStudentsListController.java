@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import java.awt.Desktop;
 import java.io.File;
+import java.util.List;
 
 import com.uece.projects.leitor_de_gabaritos.classes.School;
 import com.uece.projects.leitor_de_gabaritos.classes.Student;
@@ -41,8 +42,6 @@ public class SubjectStudentsListController {
 
     @SuppressWarnings("exports")
     public void build(School school, Subject subject) {
-        // Show answers by score
-        // Show answers by name
         // Add confirmation window
         subjectNameLabel.setText(subject.getName());
         String template = "Gabarito: ";
@@ -57,7 +56,11 @@ public class SubjectStudentsListController {
 
         studentsListVBox.getChildren().clear();
         if (!subject.getStudents().isEmpty()) {
-            sortByAdd(school, subject);
+            try {
+                sort(school, subject, "add");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else {
             studentsListVBox.getChildren().add(new Label("Essa matéria ainda não possui alunos."));
         }
@@ -89,12 +92,16 @@ public class SubjectStudentsListController {
         });
 
         sortByAddButton.setOnAction(eh -> {
-            sortByAdd(school, subject);
+            try {
+                sort(school, subject, "add");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
 
         sortByNameButton.setOnAction(eh -> {
             try {
-                sortByName(school, subject);
+                sort(school, subject, "name");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -102,7 +109,7 @@ public class SubjectStudentsListController {
 
         sortByScoreButton.setOnAction(eh -> {
             try {
-                sortByScore(school, subject);
+                sort(school, subject, "score");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -115,83 +122,16 @@ public class SubjectStudentsListController {
     }
 
     @SuppressWarnings("exports")
-    public void sortByAdd(School school, Subject subject) {
+    public void sort(School school, Subject subject, String mode) throws IOException {
         studentsListVBox.getChildren().clear();
-        for (Student student : subject.getStudents()) {
-            HBox container = new HBox(10);
-            Label studentName = new Label(student.getName());
-            String answers = "Respostas: ";
-            for (Boolean answer : student.getAnswers()) {
-                if (answer) {
-                    answers = answers.concat("V");
-                } else {
-                    answers = answers.concat("F");
-                }
-            }
-            answers = answers.concat(".");
-            Label studentAnswers = new Label(answers);
-            Label studentScore = new Label("Nota: " + String.valueOf(student.getScore()));
-
-            Button deleteSubject = new Button("Excluir");
-            deleteSubject.setOnAction(eh -> {
-                try {
-                    school.deleteAnswer(subject, student);
-                    this.build(school, subject);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-
-            container.getChildren().add(studentName);
-            container.getChildren().add(studentAnswers);
-            container.getChildren().add(studentScore);
-            container.getChildren().add(deleteSubject);
-
-            studentsListVBox.getChildren().add(container);
+        List<Student> studentsList;
+        switch (mode) {
+            case "add" ->
+                studentsList = subject.getStudents();
+            default ->
+                studentsList = school.sortSubjectResults(subject, mode);
         }
-    }
-
-    @SuppressWarnings("exports")
-    public void sortByScore(School school, Subject subject) throws IOException {
-        studentsListVBox.getChildren().clear();
-        for (Student student : school.sortSubjectResults(subject, "score")) {
-            HBox container = new HBox(10);
-            Label studentName = new Label(student.getName());
-            String answers = "Respostas: ";
-            for (Boolean answer : student.getAnswers()) {
-                if (answer) {
-                    answers = answers.concat("V");
-                } else {
-                    answers = answers.concat("F");
-                }
-            }
-            answers = answers.concat(".");
-            Label studentAnswers = new Label(answers);
-            Label studentScore = new Label("Nota: " + String.valueOf(student.getScore()));
-
-            Button deleteSubject = new Button("Excluir");
-            deleteSubject.setOnAction(eh -> {
-                try {
-                    school.deleteAnswer(subject, student);
-                    this.build(school, subject);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-
-            container.getChildren().add(studentName);
-            container.getChildren().add(studentAnswers);
-            container.getChildren().add(studentScore);
-            container.getChildren().add(deleteSubject);
-
-            studentsListVBox.getChildren().add(container);
-        }
-    }
-
-    @SuppressWarnings("exports")
-    public void sortByName(School school, Subject subject) throws IOException {
-        studentsListVBox.getChildren().clear();
-        for (Student student : school.sortSubjectResults(subject, "name")) {
+        for (Student student : studentsList) {
             HBox container = new HBox(10);
             Label studentName = new Label(student.getName());
             String answers = "Respostas: ";

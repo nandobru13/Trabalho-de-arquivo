@@ -30,7 +30,7 @@
                               <TextField fx:id="subjectNameTextField" prefHeight="34.0" prefWidth="300.0" />
                            </children>
                         </HBox>
-                        <VBox alignment="CENTER" prefHeight="183.0" prefWidth="824.0" spacing="10.0" style="-fx-border-color: grey;">
+                        <VBox alignment="CENTER" prefHeight="105.0" prefWidth="624.0" spacing="10.0" style="-fx-border-color: grey;">
                            <children>
                               <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="38.0" prefWidth="420.0" spacing="10.0">
                                  <children>
@@ -39,20 +39,14 @@
                                           <Font name="Arial" size="24.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="subjectTemplateTextField" prefHeight="34.0" prefWidth="300.0" promptText="Ex.: V,F,V,F,V,F,V,F,V,F" />
+                                    <TextField fx:id="subjectTemplateTextField" prefHeight="34.0" prefWidth="300.0" promptText="Ex.: VFVFVFVFVF" />
                                  </children>
                               </HBox>
-                              <Label text="Atenção: Adicione as respostas separadas por vírgulas. Adicione exatamente 10 questões" textFill="RED">
+                              <Label text="Atenção: Adicione exatamente 10 questões" textFill="RED">
                                  <font>
                                     <Font name="Arial" size="13.0" />
                                  </font>
                               </Label>
-                              <Label text="Ou">
-                                 <font>
-                                    <Font name="Arial" size="24.0" />
-                                 </font>
-                              </Label>
-                              <Button fx:id="addFileButton" mnemonicParsing="false" text="Especificar arquivo '.txt' no seu computador" />
                            </children>
                            <VBox.margin>
                               <Insets bottom="10.0" left="200.0" right="200.0" top="10.0" />

@@ -71,7 +71,6 @@ public class School {
                 for (boolean answer : newSubject.getCorrectAnswers()) {
                     sb.append(answer ? 'V' : 'F');
                 }
-                sb.append(",GABARITO").append(System.lineSeparator());
                 writer.write(sb.toString());
                 writer.close();
             }
@@ -155,8 +154,8 @@ public class School {
             List<String> lines = Files.readAllLines(file.toPath());
             List<String> template = Files.readAllLines(Path.of(file.toPath().getParent().toString() + "/templates/" + subjectName + "_template.txt"));
 
-            String[] templateLine = template.get(0).split(",");
-            char[] correctAnswers = templateLine[0].toCharArray();
+            String templateLine = template.get(0);
+            char[] correctAnswers = templateLine.toCharArray();
 
             Subject subject = new Subject(subjectName, correctAnswers);
 
