@@ -7,10 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -118,7 +116,7 @@ public class School {
         if (chooseMode.equals("name")) {
             sortedList.sort((p1, p2) -> p1.getName().compareTo(p2.getName()));
         } else if (chooseMode.equals("score")) {
-            Collections.sort(sortedList, Comparator.comparing(Student::getName).reversed());
+            Collections.sort(sortedList, Comparator.comparing(Student::getScore).reversed());
         }
 
         try (FileWriter fw = new FileWriter(resultFile, false); BufferedWriter bw = new BufferedWriter(fw)) {
@@ -185,7 +183,7 @@ public class School {
 
     public HashMap<Subject, Double> getSujectsAverages() {
         for (Subject subject : subjects) {
-            double averageScore = 0;
+            double averageScore;
             int totalScore = 0;
             int totalAnswers = 0;
             for (Student student : subject.getStudents()) {
@@ -216,6 +214,7 @@ public class School {
         searchSubject(subjectName).updateScores();
 
         addStudentToFile(searchSubject(subjectName), studentName, answers);
+        showAllAnswers();
     }
 
     public void deleteSubject(Subject subject) throws IOException {
@@ -245,7 +244,7 @@ public class School {
 
     public void deleteAnswer(Subject subject, Student student) throws IOException {
         File subjectFile = subjectHashMap.get(subject);
-        
+
         List<String> fileText = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(subjectFile))) {
             String fileLine;
@@ -253,14 +252,14 @@ public class School {
                 fileText.add(fileLine);
             }
         }
-        
+
         String lineToDelete = "";
         for (Boolean answer : student.getAnswers()) {
             lineToDelete = lineToDelete.concat(answer ? "V" : "F");
         }
         lineToDelete = lineToDelete.concat("," + student.getName());
         fileText.remove(lineToDelete);
-        
+
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(subjectFile, false))) {
             for (String line : fileText) {
                 System.out.println(line);

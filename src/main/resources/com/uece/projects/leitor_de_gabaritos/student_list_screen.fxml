@@ -38,5 +38,10 @@
             <Font size="14.0" />
          </font>
       </Label>
+      <Button fx:id="addNewStudentButton" layoutX="15.0" layoutY="625.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="163.0" text="Adicionar novo aluno" textFill="#68b200" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="15.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

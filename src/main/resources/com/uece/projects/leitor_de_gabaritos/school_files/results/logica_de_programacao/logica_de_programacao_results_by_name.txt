@@ -1,3 +1,5 @@
+Artur,8
+Maria,8
 Raimundo,10
 Raimundo,10
 Raimundo,10

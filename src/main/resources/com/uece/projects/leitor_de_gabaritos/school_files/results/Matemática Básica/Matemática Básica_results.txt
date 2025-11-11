@@ -1,0 +1,7 @@
+Artur,4
+Jao,5
+Maria,4
+Maria,4
+Ana,4
+Francisco,10
+Fernando,9
