@@ -6,29 +6,28 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #87CEFF;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <TextField layoutX="125.0" layoutY="127.0" prefHeight="35.0" prefWidth="348.0" promptText="Nome do aluno" />
         <Label layoutX="91.0" layoutY="31.0" prefHeight="75.0" prefWidth="417.0" text="Insira o nome e as respostas do aluno na matéria" textAlignment="CENTER" wrapText="true">
             <font>
-            <Font size="24.0" />
+            <Font name="SansSerif Bold Italic" size="24.0" />
             </font>
         </Label>
         <Label layoutX="51.0" layoutY="127.0" text="Nome:">
             <font>
-            <Font size="24.0" />
+            <Font name="SansSerif Regular" size="24.0" />
             </font>
         </Label>
-        <Label layoutX="36.0" layoutY="200.0" text="Respostas:">
+        <Label layoutX="26.0" layoutY="204.0" text="Respostas:">
             <font>
-            <Font size="24.0" />
+            <Font name="SansSerif Regular" size="24.0" />
             </font>
         </Label>
         <TextField layoutX="148.0" layoutY="200.0" prefHeight="35.0" prefWidth="348.0" promptText="Ex: V,F,V,F,V,F,V,F,V,F" />
-        <Label layoutX="27.0" layoutY="262.0" prefHeight="57.0" prefWidth="545.0" text="Atenção: Separe cada resposta por vírgula. Escreva exatamente 10 respostas." textAlignment="CENTER" textFill="#d30c0c" wrapText="true">
+        <Label layoutX="27.0" layoutY="262.0" prefHeight="57.0" prefWidth="545.0" text="Atenção: Separe cada resposta por vírgula." textAlignment="CENTER" textFill="#d30c0c" wrapText="true">
             <font>
-            <Font size="18.0" />
+            <Font name="SansSerif Regular" size="18.0" />
             </font>
         </Label>
         <Button layoutX="268.0" layoutY="336.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="62.0" style="-fx-border-color: #09b520; -fx-border-width: 2;" text="Salvar">
@@ -36,5 +35,10 @@
             <Font size="14.0" />
             </font>
         </Button>
+      <Label layoutX="97.0" layoutY="298.0" text=" Escreva exatamente 10 respostas." textFill="#d30c0c">
+         <font>
+            <Font name="SansSerif Regular" size="18.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>
