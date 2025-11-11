@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -24,7 +25,7 @@ public class School {
     private final List<Subject> subjects;
     private final List<File> subjectFiles;
     private final HashMap<Subject, File> subjectHashMap;
-    private final HashMap<Subject, Double> subjectsAverage;
+    private final HashMap<Subject, String> subjectsAverage;
 
     public School() {
         this.subjects = new CopyOnWriteArrayList<>();
@@ -41,6 +42,10 @@ public class School {
 
     public List<Subject> getSubjects() {
         return subjects;
+    }
+
+    public HashMap<Subject, File> getSubjectHashMap() {
+        return subjectHashMap;
     }
 
     public void createSubject(Subject newSubject) throws IOException, FileAlreadyCreatedException {
@@ -103,7 +108,7 @@ public class School {
         sortSubjectResults(subject, "name");
     }
 
-    private void sortSubjectResults(Subject subject, String chooseMode) throws IOException {
+    public List<Student> sortSubjectResults(Subject subject, String chooseMode) throws IOException {
         File resultFile = new File("src/main/resources/com/uece/projects/leitor_de_gabaritos/school_files/results/"
                 + subject.getName() + "/" + subject.getName() + "_results_by_" + chooseMode + ".txt");
 
@@ -125,6 +130,8 @@ public class School {
                 bw.newLine();
             }
         }
+
+        return sortedList;
     }
 
     private void findSubjectFiles() throws IOException {
@@ -181,7 +188,8 @@ public class School {
         }
     }
 
-    public HashMap<Subject, Double> getSujectsAverages() {
+    public HashMap<Subject, String> getSujectsAverages() {
+        DecimalFormat df = new DecimalFormat("#.00");
         for (Subject subject : subjects) {
             double averageScore;
             int totalScore = 0;
@@ -191,11 +199,10 @@ public class School {
                 totalScore += student.getScore();
             }
             if (totalAnswers == 0) {
-                totalAnswers = -1;
-                subjectsAverage.put(subject, Double.valueOf(totalAnswers));
+                subjectsAverage.put(subject, "N/A");
             } else {
-                averageScore = totalScore / totalAnswers;
-                subjectsAverage.put(subject, averageScore);
+                averageScore = (double) totalScore / totalAnswers;
+                subjectsAverage.put(subject, df.format(averageScore));
             }
         }
 

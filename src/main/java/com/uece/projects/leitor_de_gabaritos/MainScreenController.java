@@ -1,8 +1,11 @@
 package com.uece.projects.leitor_de_gabaritos;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 
 import com.uece.projects.leitor_de_gabaritos.classes.School;
+import com.uece.projects.leitor_de_gabaritos.classes.Student;
 import com.uece.projects.leitor_de_gabaritos.classes.Subject;
 import com.uece.projects.leitor_de_gabaritos.classes.exceptions.FileAlreadyCreatedException;
 
@@ -52,7 +55,6 @@ public class MainScreenController {
     }
 
     public void showSubjectsList() {
-        // Button delete
         subjectsListVBox.getChildren().clear();
         for (Subject subject : school.getSubjects()) {
             HBox container = new HBox(10);
@@ -97,20 +99,24 @@ public class MainScreenController {
     public void showAverageList() {
         // Show in score order
         averageListVBox.getChildren().clear();
-        for (Subject subject : school.getSubjects()) {
-            HBox container = new HBox(10);
-            Label subjectName = new Label(subject.getName());
-            Label subjectAverage;
-            if (school.getSujectsAverages().get(subject) != -1) {
-                subjectAverage = new Label(String.valueOf(school.getSujectsAverages().get(subject)));
-            } else {
-                subjectAverage = new Label("Sem respostas.");
+        if(school.getSujectsAverages().isEmpty()) {
+            averageListVBox.getChildren().add(new Label("Não há matérias no momento."));
+        } else {
+            for (Subject subject : school.getSubjects()) {
+                HBox container = new HBox(10);
+                Label subjectName = new Label(subject.getName());
+                Label subjectAverage;
+                if (!school.getSujectsAverages().get(subject).equals("N/A")) {
+                    subjectAverage = new Label(String.valueOf(school.getSujectsAverages().get(subject)));
+                } else {
+                    subjectAverage = new Label("Sem respostas.");
+                }
+
+                container.getChildren().add(subjectName);
+                container.getChildren().add(subjectAverage);
+
+                averageListVBox.getChildren().add(container);
             }
-
-            container.getChildren().add(subjectName);
-            container.getChildren().add(subjectAverage);
-
-            averageListVBox.getChildren().add(container);
         }
     }
 

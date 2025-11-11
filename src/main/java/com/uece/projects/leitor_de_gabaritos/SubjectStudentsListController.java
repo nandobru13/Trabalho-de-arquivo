@@ -2,6 +2,9 @@ package com.uece.projects.leitor_de_gabaritos;
 
 import java.io.IOException;
 
+import java.awt.Desktop;
+import java.io.File;
+
 import com.uece.projects.leitor_de_gabaritos.classes.School;
 import com.uece.projects.leitor_de_gabaritos.classes.Student;
 import com.uece.projects.leitor_de_gabaritos.classes.Subject;
@@ -27,12 +30,20 @@ public class SubjectStudentsListController {
     Label templateLabel;
     @FXML
     Button addNewStudentButton;
+    @FXML
+    Button openDirectoryButton;
+    @FXML
+    Button sortByAddButton;
+    @FXML
+    Button sortByNameButton;
+    @FXML
+    Button sortByScoreButton;
 
+    @SuppressWarnings("exports")
     public void build(School school, Subject subject) {
         // Show answers by score
         // Show answers by name
-        // Add new Student
-        // Close window
+        // Add confirmation window
         subjectNameLabel.setText(subject.getName());
         String template = "Gabarito: ";
         for (Boolean answer : subject.getCorrectAnswers()) {
@@ -45,39 +56,8 @@ public class SubjectStudentsListController {
         templateLabel.setText(template);
 
         studentsListVBox.getChildren().clear();
-        if (subject.getStudents().size() > 0) {
-            for (Student student : subject.getStudents()) {
-                HBox container = new HBox(10);
-                Label studentName = new Label(student.getName());
-                String answers = "Respostas: ";
-                for (Boolean answer : student.getAnswers()) {
-                    if (answer) {
-                        answers = answers.concat("V");
-                    } else {
-                        answers = answers.concat("F");
-                    }
-                }
-                answers = answers.concat(".");
-                Label studentAnswers = new Label(answers);
-                Label studentScore = new Label("Nota: " + String.valueOf(student.getScore()));
-
-                Button deleteSubject = new Button("Excluir");
-                deleteSubject.setOnAction(eh -> {
-                    try {
-                        school.deleteAnswer(subject, student);
-                        this.build(school, subject);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
-
-                container.getChildren().add(studentName);
-                container.getChildren().add(studentAnswers);
-                container.getChildren().add(studentScore);
-                container.getChildren().add(deleteSubject);
-
-                studentsListVBox.getChildren().add(container);
-            }
+        if (!subject.getStudents().isEmpty()) {
+            sortByAdd(school, subject);
         } else {
             studentsListVBox.getChildren().add(new Label("Essa matéria ainda não possui alunos."));
         }
@@ -97,5 +77,151 @@ public class SubjectStudentsListController {
                 System.out.println(e);
             }
         });
+
+        openDirectoryButton.setOnAction(eh -> {
+            File subjectTemplateFile = new File(school.getSubjectHashMap().get(subject).getParentFile().getPath() + "/templates/");
+            try {
+                Desktop.getDesktop().open(subjectTemplateFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        });
+
+        sortByAddButton.setOnAction(eh -> {
+            sortByAdd(school, subject);
+        });
+
+        sortByNameButton.setOnAction(eh -> {
+            try {
+                sortByName(school, subject);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        sortByScoreButton.setOnAction(eh -> {
+            try {
+                sortByScore(school, subject);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public void closeWindow() {
+        Stage stage = (Stage) addNewStudentButton.getScene().getWindow();
+        stage.close();
+    }
+
+    @SuppressWarnings("exports")
+    public void sortByAdd(School school, Subject subject) {
+        studentsListVBox.getChildren().clear();
+        for (Student student : subject.getStudents()) {
+            HBox container = new HBox(10);
+            Label studentName = new Label(student.getName());
+            String answers = "Respostas: ";
+            for (Boolean answer : student.getAnswers()) {
+                if (answer) {
+                    answers = answers.concat("V");
+                } else {
+                    answers = answers.concat("F");
+                }
+            }
+            answers = answers.concat(".");
+            Label studentAnswers = new Label(answers);
+            Label studentScore = new Label("Nota: " + String.valueOf(student.getScore()));
+
+            Button deleteSubject = new Button("Excluir");
+            deleteSubject.setOnAction(eh -> {
+                try {
+                    school.deleteAnswer(subject, student);
+                    this.build(school, subject);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            container.getChildren().add(studentName);
+            container.getChildren().add(studentAnswers);
+            container.getChildren().add(studentScore);
+            container.getChildren().add(deleteSubject);
+
+            studentsListVBox.getChildren().add(container);
+        }
+    }
+
+    @SuppressWarnings("exports")
+    public void sortByScore(School school, Subject subject) throws IOException {
+        studentsListVBox.getChildren().clear();
+        for (Student student : school.sortSubjectResults(subject, "score")) {
+            HBox container = new HBox(10);
+            Label studentName = new Label(student.getName());
+            String answers = "Respostas: ";
+            for (Boolean answer : student.getAnswers()) {
+                if (answer) {
+                    answers = answers.concat("V");
+                } else {
+                    answers = answers.concat("F");
+                }
+            }
+            answers = answers.concat(".");
+            Label studentAnswers = new Label(answers);
+            Label studentScore = new Label("Nota: " + String.valueOf(student.getScore()));
+
+            Button deleteSubject = new Button("Excluir");
+            deleteSubject.setOnAction(eh -> {
+                try {
+                    school.deleteAnswer(subject, student);
+                    this.build(school, subject);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            container.getChildren().add(studentName);
+            container.getChildren().add(studentAnswers);
+            container.getChildren().add(studentScore);
+            container.getChildren().add(deleteSubject);
+
+            studentsListVBox.getChildren().add(container);
+        }
+    }
+
+    @SuppressWarnings("exports")
+    public void sortByName(School school, Subject subject) throws IOException {
+        studentsListVBox.getChildren().clear();
+        for (Student student : school.sortSubjectResults(subject, "name")) {
+            HBox container = new HBox(10);
+            Label studentName = new Label(student.getName());
+            String answers = "Respostas: ";
+            for (Boolean answer : student.getAnswers()) {
+                if (answer) {
+                    answers = answers.concat("V");
+                } else {
+                    answers = answers.concat("F");
+                }
+            }
+            answers = answers.concat(".");
+            Label studentAnswers = new Label(answers);
+            Label studentScore = new Label("Nota: " + String.valueOf(student.getScore()));
+
+            Button deleteSubject = new Button("Excluir");
+            deleteSubject.setOnAction(eh -> {
+                try {
+                    school.deleteAnswer(subject, student);
+                    this.build(school, subject);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            container.getChildren().add(studentName);
+            container.getChildren().add(studentAnswers);
+            container.getChildren().add(studentScore);
+            container.getChildren().add(deleteSubject);
+
+            studentsListVBox.getChildren().add(container);
+        }
     }
 }
