@@ -9,11 +9,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="674.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uece.projects.leitor_de_gabaritos.SubjectStudentsListController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="674.0" prefWidth="600.0" style="-fx-background-color: #87CEFF;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uece.projects.leitor_de_gabaritos.SubjectStudentsListController">
    <children>
-      <Label layoutX="14.0" layoutY="116.0" text="Lista de alunos:" textFill="#0f4bcd">
+      <Label layoutX="205.0" layoutY="83.0" text="Lista de alunos">
          <font>
-            <Font size="24.0" />
+            <Font name="SansSerif Bold Italic" size="26.0" />
          </font>
       </Label>
       <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="15.0" layoutY="153.0" prefHeight="463.0" prefWidth="570.0">
@@ -30,7 +30,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" />
                      </padding>
                   </HBox>
-                  <VBox fx:id="studentsListVBox" prefHeight="391.0" prefWidth="560.0" spacing="5.0" VBox.vgrow="ALWAYS" />
+                  <VBox fx:id="studentsListVBox" prefHeight="391.0" prefWidth="560.0" spacing="5.0" VBox.vgrow="ALWAYS" style="-fx-background-color: #ffffff;"/>
                </children>
             </VBox>
          </content>

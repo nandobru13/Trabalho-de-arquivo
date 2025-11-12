@@ -8,16 +8,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="insertStudentScreenAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="321.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uece.projects.leitor_de_gabaritos.InsertNewStudentScreen">
+<AnchorPane fx:id="insertStudentScreenAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="600.0" style="-fx-background-color: #87CEFF;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uece.projects.leitor_de_gabaritos.InsertNewStudentScreen">
     <children>
         <Label layoutX="91.0" layoutY="31.0" prefHeight="75.0" prefWidth="413.0" text="Insira o nome e as respostas do aluno na matéria" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="90.0" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="31.0">
             <font>
-            <Font size="24.0" />
-            </font>
-        </Label>
-        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="208.0" prefHeight="57.0" prefWidth="545.0" text="Atenção: Escreva exatamente 10 respostas." textAlignment="CENTER" textFill="#d30c0c" wrapText="true">
-            <font>
-            <Font size="18.0" />
+            <Font name="SansSerif Bold Italic" size="24.0" />
             </font>
         </Label>
         <Button fx:id="saveButton" layoutX="337.0" layoutY="265.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="62.0" style="-fx-border-color: #09b520; -fx-border-width: 2;" text="Salvar" AnchorPane.bottomAnchor="22.0">
@@ -27,24 +22,24 @@
         </Button>
       <HBox alignment="CENTER" layoutX="28.0" layoutY="122.0" prefHeight="86.0" prefWidth="545.0" spacing="10.0" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="27.0">
          <children>
-            <VBox prefHeight="79.0" prefWidth="127.0" spacing="10.0">
+            <VBox alignment="CENTER_LEFT" prefHeight="79.0" prefWidth="127.0" spacing="10.0">
                <children>
                     <Label alignment="CENTER" text="Nome:">
                         <font>
-                        <Font size="24.0" />
-                        </font>
+            <Font name="SansSerif Regular" size="24.0" />
+            </font>
                     </Label>
                     <Label text="Respostas:">
-                        <font>
-                        <Font size="24.0" />
-                        </font>
+                       <font>
+            <Font name="SansSerif Regular" size="24.0" />
+            </font>
                     </Label>
                </children>
             </VBox>
             <VBox prefHeight="84.0" prefWidth="405.0" spacing="10.0">
                <children>
-                    <TextField fx:id="studentNameTextField" prefHeight="35.0" prefWidth="348.0" promptText="Nome do aluno" />
-                    <TextField fx:id="studentAnswersTextField" prefHeight="35.0" prefWidth="348.0" promptText="Ex: VFVFVFVFVF" />
+                    <TextField fx:id="studentNameTextField" prefHeight="35.0" prefWidth="348.0" promptText="Ex.: Fulano da Silva" />
+                    <TextField fx:id="studentAnswersTextField" prefHeight="35.0" prefWidth="348.0" promptText="Ex.: VFVFVFVFVF" />
                </children>
             </VBox>
          </children>

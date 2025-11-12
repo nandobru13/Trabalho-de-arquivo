@@ -18,7 +18,7 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="566.0" prefWidth="840.0">
                <children>
-                  <VBox alignment="CENTER" layoutX="449.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox alignment="CENTER" layoutX="449.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0" style="-fx-background-color: #87CEFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="40.0" prefWidth="1042.0" spacing="10.0" VBox.vgrow="ALWAYS">
                            <children>
@@ -27,10 +27,10 @@
                                     <Font name="Arial" size="24.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="subjectNameTextField" prefHeight="34.0" prefWidth="300.0" />
+                              <TextField fx:id="subjectNameTextField" prefHeight="34.0" prefWidth="300.0" promptText="Ex.: Matemática Discreta" />
                            </children>
                         </HBox>
-                        <VBox alignment="CENTER" prefHeight="105.0" prefWidth="624.0" spacing="10.0" style="-fx-border-color: grey;">
+                        <VBox alignment="CENTER" prefHeight="98.0" prefWidth="624.0" spacing="10.0">
                            <children>
                               <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="38.0" prefWidth="420.0" spacing="10.0">
                                  <children>
@@ -44,7 +44,7 @@
                               </HBox>
                               <Label text="Atenção: Adicione exatamente 10 questões" textFill="RED">
                                  <font>
-                                    <Font name="Arial" size="13.0" />
+                                    <Font name="SansSerif Regular" size="14.0" />
                                  </font>
                               </Label>
                            </children>
@@ -67,23 +67,23 @@
     </Tab>
       <Tab onSelectionChanged="#showSubjectsList" text="Exibir Respostas">
          <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #87CEFF;">
                <children>
                   <Label layoutX="57.0" layoutY="30.0" text="Lista de Disciplinas" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="30.0">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="SansSerif Bold Italic" size="24.0" />
                      </font>
                   </Label>
                   <VBox layoutX="50.0" layoutY="65.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="65.0">
                      <children>
-                        <Label alignment="CENTER" prefHeight="27.0" prefWidth="928.0" text="Escolha uma disciplina para exibir as informações" textFill="#1457ff">
+                        <Label alignment="CENTER" prefHeight="27.0" prefWidth="928.0" text="Escolha uma disciplina para exibir as informações">
                            <font>
-                              <Font size="18.0" />
+                              <Font name="SansSerif Regular" size="20.0" />
                            </font>
                         </Label>
                         <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="577.0" prefWidth="853.0" style="-fx-border-width: 0px;">
                            <content>
-                              <VBox fx:id="subjectsListVBox" prefHeight="548.0" prefWidth="914.0" spacing="10.0">
+                              <VBox fx:id="subjectsListVBox" prefHeight="548.0" prefWidth="914.0" spacing="10.0" style="-fx-background-color: #ffffff;">
                                  <padding>
                                     <Insets bottom="30.0" />
                                  </padding>
@@ -99,11 +99,11 @@
       </Tab>
     <Tab onSelectionChanged="#showAverageList" text="Visualizar Médias">
       <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #87CEFF;">
                <children>
                   <Label layoutX="57.0" layoutY="30.0" text="Lista de Disciplinas" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="30.0">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="SansSerif Bold Italic" size="24.0" />
                      </font>
                   </Label>
                   <VBox layoutX="50.0" layoutY="65.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="65.0">
@@ -113,7 +113,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                            <content>
-                              <VBox fx:id="averageListVBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" spacing="10.0" />
+                              <VBox fx:id="averageListVBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" spacing="10.0" style="-fx-background-color: #ffffff;" />
                            </content></ScrollPane>
                      </children></VBox>
                </children>
