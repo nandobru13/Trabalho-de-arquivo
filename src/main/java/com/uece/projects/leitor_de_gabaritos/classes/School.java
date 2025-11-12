@@ -48,8 +48,12 @@ public class School {
         return subjectHashMap;
     }
 
-    public void createSubject(Subject newSubject) throws IOException, FileAlreadyCreatedException {
+    public void createSubject(Subject newSubject) throws IOException, FileAlreadyCreatedException, IllegalArgumentException {
         findSubjectFiles();
+
+        if (newSubject.getName().equals("") || newSubject.getCorrectAnswers().isEmpty()) {
+            throw new IllegalArgumentException("Todos os campos deverão ser preenchidos.");
+        }
 
         for (File subjectFile : subjectFiles) {
             if (subjectFile.getName().equals(newSubject.getName() + ".txt")) {
@@ -57,7 +61,12 @@ public class School {
             }
         }
 
+        if (newSubject.getCorrectAnswers().size() != 10) {
+            throw new IllegalArgumentException("O gabarito deve conter exatamente 10 caracteres.");
+        }
+
         subjects.add(newSubject);
+
         File templateFile = new File("src/main/resources/com/uece/projects/leitor_de_gabaritos/school_files/templates/"
                 + newSubject.getName() + "_template.txt");
         File newFile = new File("src/main/resources/com/uece/projects/leitor_de_gabaritos/school_files/"

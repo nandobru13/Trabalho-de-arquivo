@@ -15,7 +15,7 @@
             <Font name="SansSerif Bold Italic" size="24.0" />
             </font>
         </Label>
-        <Button fx:id="saveButton" layoutX="337.0" layoutY="265.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="62.0" style="-fx-border-color: #09b520; -fx-border-width: 2;" text="Salvar" AnchorPane.bottomAnchor="22.0">
+        <Button fx:id="saveButton" defaultButton="true" layoutX="337.0" layoutY="265.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="62.0" style="-fx-border-color: #09b520; -fx-border-width: 2;" text="Salvar" AnchorPane.bottomAnchor="22.0">
             <font>
             <Font size="14.0" />
             </font>
@@ -44,7 +44,7 @@
             </VBox>
          </children>
       </HBox>
-      <Button layoutX="196.0" layoutY="265.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="98.0" style="-fx-border-width: 2;" text="Cancelar" AnchorPane.bottomAnchor="22.0">
+      <Button cancelButton="true" layoutX="196.0" layoutY="265.0" mnemonicParsing="false" onAction="#close" prefHeight="34.0" prefWidth="98.0" style="-fx-border-width: 2;" text="Cancelar" AnchorPane.bottomAnchor="22.0">
          <font>
             <Font size="14.0" />
          </font>

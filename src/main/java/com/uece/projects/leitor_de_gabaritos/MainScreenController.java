@@ -1,5 +1,6 @@
 package com.uece.projects.leitor_de_gabaritos;
 
+import java.awt.Desktop;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
@@ -10,6 +11,8 @@ import com.uece.projects.leitor_de_gabaritos.classes.Subject;
 import com.uece.projects.leitor_de_gabaritos.classes.exceptions.FileAlreadyCreatedException;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -40,12 +43,30 @@ public class MainScreenController {
         // Input Errors
         String subjectName = subjectNameTextField.getText();
         char[] subjectTemplate = subjectTemplateTextField.getText().toCharArray();
-        Subject newSubject = new Subject(subjectName, subjectTemplate);
-
+        boolean validInput = true;
+        Subject newSubject = null;
         try {
-            school.createSubject(newSubject);
-        } catch (IOException | FileAlreadyCreatedException e) {
-            System.out.println(e);
+            newSubject = new Subject(subjectName, subjectTemplate);
+        } catch (IllegalArgumentException e) {
+            showErrorWindow(e.getMessage());
+            validInput = false;
+        }
+        
+        if(newSubject != null) {
+            try {
+                school.createSubject(newSubject);
+            } catch (IOException | IllegalArgumentException e) {
+                showErrorWindow(e.getMessage());
+                validInput = false;
+            } catch (FileAlreadyCreatedException er) {
+                showErrorWindow(er.toString());
+                validInput = false;
+            }
+        }
+
+        if (validInput) {
+            subjectNameTextField.setText("");
+            subjectTemplateTextField.setText("");
         }
     }
 
@@ -72,15 +93,16 @@ public class MainScreenController {
                     System.out.println(e);
                 }
             });
-            
+
             deleteSubject.setOnAction(eh -> {
-            // Add confirmation window
-                try {
-                    school.deleteSubject(subject);
-                    showSubjectsList();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                openConfirmationWindow(e -> {
+                    try {
+                        school.deleteSubject(subject);
+                        showSubjectsList();
+                    } catch (IOException er) {
+                        er.printStackTrace();
+                    }
+                });
             });
 
             container.getChildren().add(view);
@@ -93,7 +115,7 @@ public class MainScreenController {
 
     public void showAverageList() {
         averageListVBox.getChildren().clear();
-        if(school.getSujectsAverages().isEmpty()) {
+        if (school.getSujectsAverages().isEmpty()) {
             averageListVBox.getChildren().add(new Label("Não há matérias no momento."));
         } else {
             for (Subject subject : school.getSubjects()) {
@@ -111,6 +133,51 @@ public class MainScreenController {
 
                 averageListVBox.getChildren().add(container);
             }
+        }
+    }
+
+    private void openConfirmationWindow(EventHandler<ActionEvent> e) {
+        try {
+            Stage stage = new Stage();
+            Scene scene;
+            scene = new Scene(new FXMLLoader(App.class.getResource("confirmation_screen.fxml")).load());
+            stage.initModality(Modality.APPLICATION_MODAL);
+            Button confirmButton = (Button) scene.lookup("#confirmButton");
+            Button cancelButton = (Button) scene.lookup("#cancelButton");
+
+            confirmButton.setOnAction(eh -> {
+                e.handle(eh);
+                stage.close();
+            });
+            cancelButton.setOnAction(eh -> {
+                stage.close();
+            });
+
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    private void showErrorWindow(String error) {
+        try {
+            Stage stage = new Stage();
+            Scene scene;
+            scene = new Scene(new FXMLLoader(App.class.getResource("error_message.fxml")).load());
+            stage.initModality(Modality.APPLICATION_MODAL);
+            Label messageLabel = (Label) scene.lookup("#messageLabel");
+            messageLabel.setText(error);
+            Button okButton = (Button) scene.lookup("#cancelButton");
+            okButton.setOnAction(eh -> {
+                stage.close();
+            });
+
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            System.out.println(ex);
         }
     }
 
