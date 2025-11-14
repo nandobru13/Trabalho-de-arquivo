@@ -40,7 +40,6 @@ public class MainScreenController {
     VBox subjectsListVBox;
 
     public void addSubject() {
-        // Input Errors
         String subjectName = subjectNameTextField.getText();
         char[] subjectTemplate = subjectTemplateTextField.getText().toCharArray();
         boolean validInput = true;
@@ -51,8 +50,8 @@ public class MainScreenController {
             showErrorWindow(e.getMessage());
             validInput = false;
         }
-        
-        if(newSubject != null) {
+
+        if (newSubject != null) {
             try {
                 school.createSubject(newSubject);
             } catch (IOException | IllegalArgumentException e) {
@@ -65,6 +64,7 @@ public class MainScreenController {
         }
 
         if (validInput) {
+            showDoneWindow();
             subjectNameTextField.setText("");
             subjectTemplateTextField.setText("");
         }
@@ -169,6 +169,24 @@ public class MainScreenController {
             stage.initModality(Modality.APPLICATION_MODAL);
             Label messageLabel = (Label) scene.lookup("#messageLabel");
             messageLabel.setText(error);
+            Button okButton = (Button) scene.lookup("#cancelButton");
+            okButton.setOnAction(eh -> {
+                stage.close();
+            });
+
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+    }
+
+    private void showDoneWindow() {
+        try {
+            Stage stage = new Stage();
+            Scene scene;
+            scene = new Scene(new FXMLLoader(App.class.getResource("done.fxml")).load());
+            stage.initModality(Modality.APPLICATION_MODAL);
             Button okButton = (Button) scene.lookup("#cancelButton");
             okButton.setOnAction(eh -> {
                 stage.close();

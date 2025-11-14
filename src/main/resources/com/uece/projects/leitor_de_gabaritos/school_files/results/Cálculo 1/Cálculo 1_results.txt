@@ -1,2 +1,0 @@
-Fulano,5
-Fernando,7

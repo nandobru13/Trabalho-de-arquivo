@@ -1,0 +1,4 @@
+João,4
+Fernando,0
+Artur,0
+Paulo,3
